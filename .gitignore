@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Caches
+*.egg-info/
+*.eggs/
+.Python
+pip-wheel-metadata/
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+
+# Env files
+.env
+.env.*
+
+# Docker files
+docker-compose.override.yml
+*.log
+*.lock
+docker-*.log
+db-data/
+postgres_data/
+redis_data/
+
+# alembic
+alembic/versions/*.pyc
+alembic/versions/*.pyo
+
+# Pytest
+.cache/
+.pytest_cache/
+
+# Logs and temp files
+*.log
+*.out
+*.pid
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Python Tools
+.mypy_cache/
+pytestdebug.log
+
+# Generated files
+*.pyc
+*.pyo
