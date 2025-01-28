@@ -16,6 +16,8 @@ dev = [
     "pytest-asyncio>=0.25.2",
     "pytest-cov>=6.0.0",
     "ruff>=0.8.6",
+    "setuptools>=75.8.0",
+    "wheel>=0.45.1",
 ]
 pytest = [
     "pytest-cov>=6.0.0",
@@ -43,7 +45,6 @@ omit = [
 
 [tool.ruff]
 target-version = "py312"
-fixable = true
 
 [tool.ruff.lint]
 ignore = ["F401"]
