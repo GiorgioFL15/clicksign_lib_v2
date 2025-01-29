@@ -3,6 +3,10 @@ from uuid import UUID
 
 
 class Signer:
+    """
+    Represents a signer within an envelope.
+    """
+
     def __init__(
         self,
         type: str,
@@ -16,6 +20,9 @@ class Signer:
         refusable: Optional[str] = None,
         group: Optional[str] = None,
     ):
+        """
+        Initializes a Signer instance.
+        """
         self._type = type
         self._envelope_id = envelope_id
         self._name = name
@@ -27,7 +34,7 @@ class Signer:
         self._refusable = refusable
         self._group = group
         self._id = id
-        self._signers: dict[str, UUID] = {}
+        self._signers: Dict[str, UUID] = {}
 
     @staticmethod
     def create(
@@ -42,7 +49,10 @@ class Signer:
         refusable: Optional[str] = None,
         group: Optional[str] = None,
     ) -> "Signer":
-        signer = Signer(
+        """
+        Creates a new Signer instance.
+        """
+        return Signer(
             type=type,
             name=name,
             birthday=birthday,
@@ -54,7 +64,6 @@ class Signer:
             refusable=refusable,
             group=group,
         )
-        return signer
 
     @property
     def type(self) -> str:

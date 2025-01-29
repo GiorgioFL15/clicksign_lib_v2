@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="clicksign-lib-v2",
-    version="0.0.1",
+    version="0.1.2",
     author="Giorgio Frigotto Lovatel",
     description="Consuming clicksign API V2 and making it available in lib",
     long_description=long_description,

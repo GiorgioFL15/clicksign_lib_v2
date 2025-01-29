@@ -3,6 +3,10 @@ from uuid import UUID
 
 
 class RequiredAuth:
+    """
+    Represents the required authentication settings for an envelope.
+    """
+
     def __init__(
         self,
         type: str,
@@ -16,6 +20,9 @@ class RequiredAuth:
         document_id: Optional[str] = None,
         signer_id: Optional[str] = None,
     ):
+        """
+        Initializes a RequiredAuth instance.
+        """
         self._type = type
         self._envelope_id = envelope_id
         self._first_opp = first_opp
@@ -41,6 +48,9 @@ class RequiredAuth:
         document_id: Optional[str] = None,
         signer_id: Optional[str] = None,
     ) -> "RequiredAuth":
+        """
+        Creates a new RequiredAuth instance.
+        """
         return RequiredAuth(
             type=type,
             first_opp=first_opp,
@@ -54,7 +64,6 @@ class RequiredAuth:
             signer_id=signer_id,
         )
 
-    # Propriedades para expor os atributos privados
     @property
     def type(self) -> str:
         return self._type
