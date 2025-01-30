@@ -12,8 +12,8 @@ class DocumentAdapterFakeResponse:
     filename: str
     content_base64: str
     envelope_id: UUID
+    status_code: int
     metadata: Optional[Dict] = None
-    errors: Optional[list[str]] = None
 
 
 class FakeDocumentAdapter:
@@ -25,7 +25,7 @@ class FakeDocumentAdapter:
                 filename=document.filename,
                 content_base64=document.content_base64,
                 envelope_id=document.envelope_id,
-                errors=["Tipo de documento inválido"],
+                status_code=500,
             )
         else:
             return DocumentAdapterFakeResponse(
@@ -35,4 +35,5 @@ class FakeDocumentAdapter:
                 content_base64=document.content_base64,
                 envelope_id=document.envelope_id,
                 metadata=document.metadata,
+                status_code=201,
             )

@@ -9,9 +9,8 @@ class RequiredAuthenticationClicksignAdapter(IRequiredAuthAdapter):
         self._auth_token = auth_token
         self._base_url = base_url
 
-    async def create_bulk_auth(self, required_auth: RequiredAuth) -> str:
+    async def create_bulk_auth(self, required_auth: RequiredAuth) -> httpx.Response:
         headers = {
-            "Authorization": f"Bearer {self._auth_token}",
             "Content-Type": "application/vnd.api+json",
             "Accept": "application/vnd.api+json",
         }
@@ -68,12 +67,10 @@ class RequiredAuthenticationClicksignAdapter(IRequiredAuthAdapter):
                 },
             ],
         }
-
-        async with httpx.AsyncClient(base_url=self._base_url) as client:
+        async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"/api/v3/envelopes/{required_auth.envelope_id}/bulk_requirements?access_token={self._auth_token}",
+                f"{self._base_url}/api/v3/envelopes/{required_auth.envelope_id}/bulk_requirements?access_token={self._auth_token}",
                 json=payload,
                 headers=headers,
             )
-            response.raise_for_status()
-            return response.json()
+            return response

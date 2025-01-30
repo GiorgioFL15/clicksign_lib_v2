@@ -8,15 +8,15 @@ class SignerClicksignAdapter:
         self._base_url = base_url
         self._auth_token = auth_token
 
-    async def create_signer(self, signer: Signer) -> str:
+    async def create_signer(self, signer: Signer) -> httpx.Response:
         headers = {
             "Authorization": f"Bearer {self._auth_token}",
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-        async with httpx.AsyncClient(base_url=self._base_url) as client:
+        async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"/api/v3/envelopes/{signer.envelope_id}/signers?access_token={self._auth_token}",
+                f"{self._base_url}/api/v3/envelopes/{signer.envelope_id}/signers?access_token={self._auth_token}",
                 json={
                     "data": {
                         "type": signer.type,
@@ -34,5 +34,4 @@ class SignerClicksignAdapter:
                 },
                 headers=headers,
             )
-            response.raise_for_status()
-            return response.json()
+            return response

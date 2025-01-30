@@ -1,5 +1,3 @@
-from dataclasses import asdict
-
 import httpx
 
 from clicksign.domain.envelope import Envelope
@@ -11,50 +9,48 @@ class EnvelopeClicksignAdapter(IEnvelopeAdapter):
         self._auth_token = auth_token
         self._base_url = base_url
 
-    async def create_envelope(self, envelope: Envelope) -> dict:
+    async def create_envelope(self, envelope: Envelope) -> httpx.Response:
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
 
-        async with httpx.AsyncClient(base_url=self._base_url) as client:
+        async with httpx.AsyncClient() as client:
+            json = {
+                "data": {
+                    "type": envelope.type,
+                    "attributes": {"name": envelope.name},
+                }
+            }
             response = await client.post(
-                f"/api/v3/envelopes?access_token={self._auth_token}",
-                json={
-                    "data": {
-                        "type": envelope.type,
-                        "attributes": {
-                            "name": envelope.name,
-                            "locale": envelope.locale,
-                            "auto_close": envelope.auto_close,
-                            "remind_interval": envelope.remind_interval,
-                            "block_after_refusal": envelope.block_after_refusal,
-                            "deadline_at": envelope.deadline_at,
-                        },
-                    }
-                },
+                f"{self._base_url}/api/v3/envelopes?access_token={self._auth_token}",
+                json=json,
                 headers=headers,
             )
-            return response.json()
+            return response
 
-    async def activate_envelope(self, envelope: Envelope) -> dict:
+    async def activate_envelope(self, envelope: Envelope) -> httpx.Response:
         headers = {
             "Authorization": f"Bearer {self._auth_token}",
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
 
-        async with httpx.AsyncClient(base_url=self._base_url) as client:
+        payload = (
+            {
+                "data": {
+                    "type": envelope.type,
+                    "id": envelope.id,
+                    "attributes": {
+                        "status": envelope.status,
+                    },
+                }
+            },
+        )
+        async with httpx.AsyncClient() as client:
             response = await client.patch(
-                f"/api/v3/envelopes/{envelope.id}?access_token={self._auth_token}",
-                json={
-                    "data": {
-                        "type": envelope.type,
-                        "attributes": {
-                            "name": envelope.status,
-                        },
-                    }
-                },
+                f"{self._base_url}/api/v3/envelopes/{envelope.id}?access_token={self._auth_token}",
+                json=payload,
                 headers=headers,
             )
-            return response.json()
+            return response

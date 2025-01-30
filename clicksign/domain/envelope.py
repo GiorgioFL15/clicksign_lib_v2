@@ -1,5 +1,5 @@
 from typing import Dict, Optional
-from uuid import UUID
+from uuid import UUID, uuid4
 
 
 class Envelope:
@@ -17,6 +17,7 @@ class Envelope:
         block_after_refusal: Optional[str] = None,
         deadline_at: Optional[str] = None,
         status: Optional[str] = None,
+        id: Optional[str] = None,
     ):
         """
         Initializes an Envelope instance.
@@ -38,7 +39,7 @@ class Envelope:
         self._block_after_refusal = block_after_refusal
         self._deadline_at = deadline_at
         self._status = status
-        self._id = id
+        self._id = id or uuid4()
         self._signers: Dict[str, UUID] = {}
 
     @staticmethod
@@ -69,6 +70,7 @@ class Envelope:
     @staticmethod
     def update(
         type: str,
+        id: UUID,
         status: Optional[str] = None,
     ) -> "Envelope":
         """
@@ -78,6 +80,7 @@ class Envelope:
         """
         return Envelope(
             type=type,
+            id=id,
             status=status,
         )
 

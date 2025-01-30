@@ -1,6 +1,3 @@
-from dataclasses import asdict, dataclass
-from typing import List
-
 import httpx
 
 from clicksign.domain.document import Document
@@ -12,16 +9,16 @@ class DocumentClicksignAdapter(IDocumentAdapter):
         self._auth_token = auth_token
         self._base_url = base_url
 
-    async def create_document(self, document: Document) -> dict:
+    async def create_document(self, document: Document) -> httpx.Response:
         headers = {
             "Authorization": f"Bearer {self._auth_token}",
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
 
-        async with httpx.AsyncClient(base_url=self._base_url) as client:
+        async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"/api/v3/envelopes/{document.envelope_id}/documents?access_token={self._auth_token}",
+                f"{self._base_url}/api/v3/envelopes/{document.envelope_id}/documents?access_token={self._auth_token}",
                 json={
                     "data": {
                         "type": document.type,
@@ -34,5 +31,4 @@ class DocumentClicksignAdapter(IDocumentAdapter):
                 },
                 headers=headers,
             )
-            response.raise_for_status()
-            return response.json()
+            return response
