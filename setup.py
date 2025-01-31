@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="clicksign-lib-v2",
-    version="0.1.2",
+    name="clicksign_lib_v2",
+    version="0.1.4",
     author="Giorgio Frigotto Lovatel",
     description="Consuming clicksign API V2 and making it available in lib",
     long_description=long_description,
