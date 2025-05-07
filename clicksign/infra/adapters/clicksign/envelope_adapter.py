@@ -36,17 +36,15 @@ class EnvelopeClicksignAdapter(IEnvelopeAdapter):
             "Accept": "application/json",
         }
 
-        payload = (
-            {
-                "data": {
-                    "type": envelope.type,
-                    "id": envelope.id,
-                    "attributes": {
-                        "status": envelope.status,
-                    },
-                }
-            },
-        )
+        payload = {
+            "data": {
+                "type": envelope.type,
+                "id": envelope.id,
+                "attributes": {
+                    "status": envelope.status,
+                },
+            }
+        }
         async with httpx.AsyncClient() as client:
             response = await client.patch(
                 f"{self._base_url}/api/v3/envelopes/{envelope.id}?access_token={self._auth_token}",
