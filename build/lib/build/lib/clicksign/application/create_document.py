@@ -77,6 +77,8 @@ class CreateDocument:
             metadata=input.metadata,
         )
         response = await self._document_adapter.create_document(document)
-        if response.errors:
-            return Output(id=None, errors=response.errors)
+        if response.status_code != 201:
+            return Output(
+                id=None, errors=["Error when create document without adapter"]
+            )
         return Output(id=document.id)

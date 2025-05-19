@@ -83,6 +83,8 @@ class CreateEnvelope:
             deadline_at=input.deadline_at,
         )
         response = await self._envelope_adapter.create_envelope(envelope)
-        if response.errors:
-            return Output(id=None, errors=response.errors)
+        if response.status_code != 201:
+            return Output(
+                id=None, errors=["Error when create envelope without adapter"]
+            )
         return Output(id=envelope.id)

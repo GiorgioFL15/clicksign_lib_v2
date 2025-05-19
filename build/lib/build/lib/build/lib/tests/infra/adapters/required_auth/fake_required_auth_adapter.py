@@ -7,7 +7,7 @@ class RequiredAuthAdapterFakeResponse:
     id: str
     type: str
     attributes: Dict
-    errors: Optional[list[str]] = None
+    status_code: int
 
 
 class FakeRequiredAuthAdapter:
@@ -17,12 +17,13 @@ class FakeRequiredAuthAdapter:
                 id="",
                 type="",
                 attributes={},
-                errors=["Envelope ID inválido"],
+                status_code=500,
             )
         else:
             return RequiredAuthAdapterFakeResponse(
                 id="fake-id",
-                type="bulk_requirements",
+                type="requirements",
+                status_code=201,
                 attributes={
                     "first_action": required_auth.first_action,
                     "first_auth": required_auth.auth,

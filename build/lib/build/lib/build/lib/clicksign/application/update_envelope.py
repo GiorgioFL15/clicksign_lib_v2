@@ -17,6 +17,7 @@ class Input:
 
     type: str
     status: str
+    id: str
 
 
 @dataclass
@@ -62,8 +63,10 @@ class UpdateEnvelope:
         Returns:
             Output: The result of the process, including the envelope ID or errors.
         """
-        envelope = Envelope.update(type=input.type, status=input.status)
+        envelope = Envelope.update(type=input.type, status=input.status, id=input.id)
         response = await self._envelope_adapter.activate_envelope(envelope)
-        if response.errors:
-            return Output(id=None, errors=response.errors)
+        if response.status_code != 201:
+            return Output(
+                id=None, errors=["Error when updating envelope without adapter"]
+            )
         return Output(id=envelope.id)

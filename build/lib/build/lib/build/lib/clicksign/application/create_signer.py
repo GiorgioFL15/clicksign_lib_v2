@@ -92,6 +92,6 @@ class CreateSigner:
             group=input.group,
         )
         response = await self._signer_adapter.create_signer(signer)
-        if response.errors:
-            return Output(id=None, errors=response.errors)
+        if response.status_code != 201:
+            return Output(id=None, errors=["Error when create signer without adapter"])
         return Output(id=signer.id)

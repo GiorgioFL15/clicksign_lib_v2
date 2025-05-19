@@ -44,6 +44,7 @@ class IEnvelope(Protocol):
     @staticmethod
     def update(
         type: str,
+        id: str,
         status: Optional[str] = None,
     ) -> "IEnvelope":
         """

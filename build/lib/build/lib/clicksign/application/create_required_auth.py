@@ -92,6 +92,6 @@ class CreateRequiredAuth:
             signer_id=input.signer_id,
         )
         response = await self._required_auth_adapter.create_bulk_auth(required_auth)
-        if response.errors:
-            return Output(id=None, errors=response.errors)
+        if response.status_code != 201:
+            return Output(id=None, errors=["Error when create auth without adapter"])
         return Output(id=required_auth.id)

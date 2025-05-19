@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Optional
 from uuid import UUID
 
 from uuid_extensions import uuid7
@@ -11,7 +10,7 @@ class EnvelopeAdapterFakeResponse:
     type: str
     name: str
     status: str
-    errors: Optional[list[str]] = None
+    status_code: int
 
 
 class FakeEnvelopeAdapter:
@@ -22,7 +21,7 @@ class FakeEnvelopeAdapter:
                 type=envelope.type,
                 name="",
                 status="",
-                errors=["Nome do envelope inválido"],
+                status_code=500,
             )
         else:
             return EnvelopeAdapterFakeResponse(
@@ -30,6 +29,7 @@ class FakeEnvelopeAdapter:
                 type=envelope.type,
                 name=envelope.name,
                 status="running",
+                status_code=201,
             )
 
     async def activate_envelope(self, envelope):
@@ -39,7 +39,7 @@ class FakeEnvelopeAdapter:
                 type=envelope.type,
                 name=envelope.name,
                 status=envelope.status,
-                errors=["Envelope não pode ser ativado"],
+                status_code=500,
             )
         else:
             return EnvelopeAdapterFakeResponse(
@@ -47,4 +47,5 @@ class FakeEnvelopeAdapter:
                 type=envelope.type,
                 name=envelope.name,
                 status=envelope.status,
+                status_code=201,
             )

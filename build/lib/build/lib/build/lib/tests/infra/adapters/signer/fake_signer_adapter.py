@@ -11,7 +11,7 @@ class SignerAdapterFakeResponse:
     type: str
     name: str
     email: str
-    errors: Optional[list[str]] = None
+    status_code: int
 
 
 class FakeSignerAdapter:
@@ -22,7 +22,7 @@ class FakeSignerAdapter:
                 type=signer.type,
                 name="",
                 email=signer.email,
-                errors=["Nome do signatário inválido"],
+                status_code=500,
             )
         else:
             return SignerAdapterFakeResponse(
@@ -30,4 +30,5 @@ class FakeSignerAdapter:
                 type=signer.type,
                 name=signer.name,
                 email=signer.email,
+                status_code=201,
             )
